@@ -1,57 +1,120 @@
-:root{
-    background-color: black;
-    color: white;
-
+:root {
+  background-color: black;
+  color: white;
 }
-
 
 header {
-    display: flex;
-    justify-content:space-between;
-    padding: 5px 10px;
-    font-weight: bold;
-    /* border-bottom: text; */
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 20px;
+  font-weight: bold;
+  text-align: end;
+  padding:10px 50px 0px
+
+  /* border-bottom: text; */
 }
-header div{
-    background-image: linear-gradient(60deg, #e21143, #FFB03a);
+.color-style {
+  background-image: linear-gradient(60deg, #e21143, #ffb03a);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+  background-color: #f3ec78;
+  /* background-color: #f3ec78; */
+  /* border-bottom: 3px solid red;
+   padding-bottom: 3px;
+   border-bottom-style:dotted */
+}
+.answers {
+    background-image: linear-gradient(60deg, #e21143, #ffb03a);
     background-size: 100%;
     -webkit-background-clip: text;
     -moz-background-clip: text;
     -webkit-text-fill-color: transparent;
-    -moz-text-fill-color:transparent;
+    -moz-text-fill-color: transparent;
     background-color: #f3ec78;
-   border-bottom: 1px solid;
-   padding-bottom: 3px;
-   border-bottom-style: solid;
 }
-
-main{
-    /* position: relative; */
-    /* margin-left: 25%; */
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
+.questions{
+    background-image: linear-gradient(60deg, #e21143, #ffb03a);
+    background-size: 100%;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-text-fill-color: transparent;
+    background-color: #f3ec78;
 }
-main div{
-    /* display: flex; */
-    /* position: absolute; */
-    /* align-items: flex-start; */
- align-self: flex-start;
-    padding-left: 10%;
-    margin-bottom: 20px;
-    width: 80%;
-    /* background-color: aquamarine; */
+main {
+  /* position: relative; */
+  /* margin-left: 25%; */
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+main div {
+  /* display: flex; */
+  /* position: absolute; */
+  /* align-items: flex-start; */
+  align-self: flex-start;
+  padding-left: 10%;
+  margin-bottom: 20px;
+  width: 80%;
+  /* background-color: aquamarine; */
+}
+#score-board {
+    background-image: linear-gradient(60deg,#ffb03a,#e21143);
+    background-size: 100%;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-text-fill-color: transparent;
+    background-color: #f3ec78;
+  display: flex;
+  justify-content: end;
+  align-items: flex-end;
 }
 main div p {
-    background-color:aquamarine;
-    padding:10px;
-    color: red;
-    transition: all 150ms ease-in-out;
-
+  background-color: aquamarine;
+  border-radius: 20px;
+  padding: 20px;
+  color: red;
+  transition: all 150ms ease-in-out;
+  font-weight: bold;
 }
 
-main div p:hover{
-    transform: scale(1.05); 
-}    
+main div p:hover {
+  transform: scale(1.05);
+}
+
+header div:hover {
+  background-image: linear-gradient(60deg, #ffb03a, #e21143);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+  background-color: #f3ec78;
+  
+}
+
+.button{
+  display: inline-block;
+text-align: center;
+ 
+ /* padding: 10px; */
+ /* justify-content: space-evenly; */
+ /* width: 40%; */
+}
+div button{
+  background-image: linear-gradient(60deg, #e21143, #ffb03a);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+  background-color: #f3ec78;
+  margin: 10px;
+border-radius: 10px;
+}
