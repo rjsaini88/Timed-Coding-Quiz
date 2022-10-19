@@ -17,17 +17,29 @@ THEN the game is over
 WHEN the game is over
 THEN I can save my initials and my score
  */
-var time = document.querySelector("#time");
-var secondsLeft = 30;
+
+function qs(id) {
+  return document.querySelector(id);
+}
+var time = qs("#time");
+var start = qs("#start");
+// var time = document.querySelector("#time");
+var secondsLeft = 5;
 
 function timer() {
   var timeInterval = setInterval(function () {
-    secondsLeft--;
-    time.textContent = secondsLeft;
+    // secondsLeft--; = secondsLeft +1;
+    time.textContent = secondsLeft--;
     if (secondsLeft === 0) {
+      alert("Ahh out of time");
       clearInterval(timeInterval);
+
     }
   }, 1000);
 }
 
-timer();
+start.addEventListener("click", timer);
+
+
+// function (start){
+//     start.preventDefault();

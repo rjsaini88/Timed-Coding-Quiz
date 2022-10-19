@@ -10,9 +10,15 @@
   <body>
     <header>
       <div class="color-style">View high scores</div>
-      <div class="color-style">
-        Timer: <span>00</span>
-        <div>Score Board:</div>
+      <div class="color-style flex">
+        <div class="flex-col">
+          <div>Timer:</div>
+          <div>Score Board:</div>
+        </div>
+        <div class="flex-col">
+          <div id="time">20</div>
+          <div id="score">100</div>
+        </div>  
       </div>
     </header>
     <main>
@@ -27,7 +33,7 @@
         <p>Answer 4</p>
       </div>
       <div class="button">
-        <button>Start Quiz</button>
+        <button id="start">Start Quiz</button>
         <button>Reset</button>
       </div>
     </main>
