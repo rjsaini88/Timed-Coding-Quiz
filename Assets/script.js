@@ -32,6 +32,7 @@ var option3 = qs("#option3");
 var option4 = qs("#option4");
 var over = qs("#over");
 var timeInterval;
+var qn = qs("questionNumber")
 
 // startQuiz.addEventListener("click", timer);
 
@@ -53,8 +54,9 @@ var timeInterval;
 var gameRunning = false;
 var timeLeft = 3;
 var timeInterval;
-var wins = 0;
-var losses = 0;
+// var wins = 0;
+// var losses = 0;
+var score = 0;
 
 var startGame = function () {
   if (gameRunning) return;
@@ -82,14 +84,20 @@ var gameOver = function () {
   //   losess++;
   //   losses
   gameRunning = false;
-  timeleft = 3;
+  timeLeft = 3;
+  score--;
+  score.textContent = score;
+  syncLocalStorage();
+  // alert("Ahhh Out of Time!!!")
 };
 
 var syncLocalStorage = function () {
-  localStorage.setItems("Score");
+  localStorage.setItem("score", score);
 };
 
 startBtn.addEventListener("click", timer);
+
+
 
 // function timer() {
 //   var timeLeft = 3;
@@ -104,104 +112,120 @@ startBtn.addEventListener("click", timer);
 
 //build an array of questions. for loop, iterations. iteration is equal to number of questions
 //
-/*
-[Questions
-  Inside the HTML document, where do you place your JavaScript code? *
-		Inside the <script> element - true
-		Inside the <link> element - false
-		In the <footer> element - false
-		Inside the <head> element - false
 
-What operator is used to assign a value to a declared variable? *
-		Equal sign (=) - true
-		Colon (:) - false
-		Double-equal (==) - false
-		Question mark (?) - false
+var qL = [
+{
+  question: "Inside the HTML document, where do you place your JavaScript code?",
+  answers:{
+   a: 'Inside the <script> element',
+		b: 'Inside the <link> element',
+		c: 'In the <footer> element',
+		d: 'Inside the <head> element',
+  },
+    correctAnswer: 'a'
+  },
+   { 
+question: "What operator is used to assign a value to a declared variable?",
+		
+answers: {
+  a: 'Equal sign (=)', 
+		b: 'Colon (:)',
+		c: 'Double-equal (==)',
+		d: 'Question mark (?)',
+},
+correctAnswer: 'a'
+},
+{
 
-What are the six primitive data types in JavaScript? *
-		string, number, boolean, bigInt, symbol, undefined - true
-		sentence, int, truthy, bigInt, symbol, undefined - false
-		sentence, float, data, bigInt, symbol, undefined - false
-		string, num, falsy, bigInt, symbol, undefined - false
-
-What is the difference between && and ||? *
-		The logical operator && returns true if both expressions are true while the logical operator || returns true if one expression or the other returns true. - true
-		The logical operator && returns true if one expression is true while the logical operator || returns true if both expressions returntrue true. - false
-		The logical operator && returns true if none of the expressions are true while the logical operator || returns true if one expression or the other returns true. - false
-		The logical operator && returns true if both expressions are true while the logical operator || returns false if one expression or the other returns true. - false
-
-How do we declare a conditional statement in JavaScript? *
-		if...else - true
-		for loop - false
-		while loop - false
-		difference...between] - false
-
-From the given array which index is the letter 'b' on? ['a', 'b', 'c', 'd'] *
-		1
-		0
-		2
-		3
-
-How do we stop a loop from from repeating indefinitely? *
-		A loop will stop executing when the condition is false.
-		A loop will stop executing when the condition is true.
-		When we have iterated through half of the condition.
-		We have to explicitly end the loop with the break keyword.
-
-Which statement below is not true about functions in JavaScript? *
-		A function must always be assigned an identifier
-		Functions can be reused throughout your code
-		Functions are able to be recursive.
-		Functions can receive arguments that can alter the output of a function
-    
-What are the two types of scope JavaScript uses? *
-		Global and Local
-		Surrounding and Inner
-		Outside and Inside
-		Abroad and Local
-
-    As a developer, I want to be able to remove the last element of my array and I want to also be able to add a new element to the beginning of my array. Which two array methods should I use? *
-		pop() and unshift()
-		push() and sort()
-		forEach() and pop()
-		concat() and shift()
-
-    How do we access a value stored in an object? *
-		Dot notation, Bracket notation
-		Period notation, Square bracket notation
-		Dot notation, Curl bracket notation
-		Equal notation, Abstract notation
-
-    What is an object method? *
-		A function associated with an object
-		An array saved inside of an object
-		Keys in an object that have a number assigned to it
-		A function that takes an object for an argument
-
-    What is the purpose of the 'This' operator? *
-		The keyword 'This' refers to the object it is in. 'This' changes based on which object it is in when being called.
-		This' keyword allows us to specify certain variables to it which can be used in the global scope.
-		This' keyword lets us make a reference to our window gives us access to special object methods.
-		This' is an array where we can easily store global variables for when we need access to them.
-
-    We create a new branch off of our main branch with  'git branch test-branch'. How do we switch to our newly created branch? *
-		git checkout test-branch
-		git change test branch
-		git merge test-branch
-		git commit test-branch
-
-From the reason listed below which is NOT true about JavaScript. *
-		JavaScripts handles numbers better than most programming languages.
-		JavaScript increases interactivity of our websites.
-		Javascript allows developers to create richer interfaces for the users.
-		JavaScript lets provide the user immediate feedback upon an action.
-
-
-
-
-
+question: 'What are the six primitive data types in JavaScript?',
+	answers:{
+  a:'  string, number, boolean, bigInt, symbol, undefined',
+	b:	'sentence, int, truthy, bigInt, symbol, undefined',
+		c: 'sentence, float, data, bigInt, symbol, undefined',
+		d: 'string, num, falsy, bigInt, symbol, undefined',
+  },
+  correctAnswer: 'a'
+},
 ]
 
+// What is the difference between && and ||? *
+// 		The logical operator && returns true if both expressions are true while the logical operator || returns true if one expression or the other returns true. - true
+// 		The logical operator && returns true if one expression is true while the logical operator || returns true if both expressions returntrue true. - false
+// 		The logical operator && returns true if none of the expressions are true while the logical operator || returns true if one expression or the other returns true. - false
+// 		The logical operator && returns true if both expressions are true while the logical operator || returns false if one expression or the other returns true. - false
+
+// How do we declare a conditional statement in JavaScript? *
+// 		if...else - true
+// 		for loop - false
+// 		while loop - false
+// 		difference...between] - false
+
+// From the given array which index is the letter 'b' on? ['a', 'b', 'c', 'd'] *
+// 		1
+// 		0
+// 		2
+// 		3
+
+// How do we stop a loop from from repeating indefinitely? *
+// 		A loop will stop executing when the condition is false.
+// 		A loop will stop executing when the condition is true.
+// 		When we have iterated through half of the condition.
+// 		We have to explicitly end the loop with the break keyword.
+
+// Which statement below is not true about functions in JavaScript? *
+// 		A function must always be assigned an identifier
+// 		Functions can be reused throughout your code
+// 		Functions are able to be recursive.
+// 		Functions can receive arguments that can alter the output of a function
+    
+// What are the two types of scope JavaScript uses? *
+// 		Global and Local
+// 		Surrounding and Inner
+// 		Outside and Inside
+// 		Abroad and Local
+
+//     As a developer, I want to be able to remove the last element of my array and I want to also be able to add a new element to the beginning of my array. Which two array methods should I use? *
+// 		pop() and unshift()
+// 		push() and sort()
+// 		forEach() and pop()
+// 		concat() and shift()
+
+//     How do we access a value stored in an object? *
+// 		Dot notation, Bracket notation
+// 		Period notation, Square bracket notation
+// 		Dot notation, Curl bracket notation
+// 		Equal notation, Abstract notation
+
+//     What is an object method? *
+// 		A function associated with an object
+// 		An array saved inside of an object
+// 		Keys in an object that have a number assigned to it
+// 		A function that takes an object for an argument
+
+//     What is the purpose of the 'This' operator? *
+// 		The keyword 'This' refers to the object it is in. 'This' changes based on which object it is in when being called.
+// 		This' keyword allows us to specify certain variables to it which can be used in the global scope.
+// 		This' keyword lets us make a reference to our window gives us access to special object methods.
+// 		This' is an array where we can easily store global variables for when we need access to them.
+
+//     We create a new branch off of our main branch with  'git branch test-branch'. How do we switch to our newly created branch? *
+// 		git checkout test-branch
+// 		git change test branch
+// 		git merge test-branch
+// 		git commit test-branch
+
+// From the reason listed below which is NOT true about JavaScript. *
+// 		JavaScripts handles numbers better than most programming languages.
+// 		JavaScript increases interactivity of our websites.
+// 		Javascript allows developers to create richer interfaces for the users.
+// 		JavaScript lets provide the user immediate feedback upon an action.
 
 
-*/
+
+
+
+// ]
+
+
+
+// */
