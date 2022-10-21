@@ -35,7 +35,7 @@ header {
     -moz-text-fill-color: transparent;
     background-color: #f3ec78;
 } */
-.questions{
+/* .questions{
     background-image: linear-gradient(60deg, #e21143, #ffb03a);
     background-size: 100%;
     -webkit-background-clip: text;
@@ -43,7 +43,7 @@ header {
     -webkit-text-fill-color: transparent;
     -moz-text-fill-color: transparent;
     background-color: #f3ec78;
-}
+} */
 main {
   /* position: relative; */
   /* margin-left: 25%; */

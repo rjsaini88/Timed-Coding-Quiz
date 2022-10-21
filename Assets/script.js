@@ -25,30 +25,15 @@ var time = qs("#time");
 var startBtn = qs("#startBtn");
 var reset = qs("#reset");
 var score = qs("#score");
-var questions = qs("#questions");
-var option1 = qs("#option1");
-var option2 = qs("#option2");
-var option3 = qs("#option3");
-var option4 = qs("#option4");
-var over = qs("#over");
+var qn = qs("questionNumber");
+var dQ = qs("#displayQuestion");
+var opt1 = qs("#option1");
+var opt2 = qs("#option2");
+var opt3 = qs("#option3");
+var opt4 = qs("#option4");
+var gameOver = qs("#gameOver");
 var timeInterval;
-var qn = qs("questionNumber")
 
-// startQuiz.addEventListener("click", timer);
-
-// startQuiz.addEventListener ("click", questionPage);
-
-// function questionPage() {
-
-// questions.textContent = "What is this";
-// option1.textContent = "Wrong";
-// option2.textContent = "Try again";
-// option3.textContent = "Not yet";
-// option4.textContent = "Almost";
-// }
-
-// function (start){
-//     start.preventDefault();
 
 // guard clause
 var gameRunning = false;
@@ -79,10 +64,8 @@ var timer = () => {
 };
 //check this logic for scoreboard
 var gameOver = function () {
+  gameOver.textContent = "GAME OVER";
   clearInterval(timeInterval);
-  over.textContent = "GAME OVER";
-  //   losess++;
-  //   losses
   gameRunning = false;
   timeLeft = 3;
   score--;
@@ -96,6 +79,7 @@ var syncLocalStorage = function () {
 };
 
 startBtn.addEventListener("click", timer);
+startBtn.addEventListener("click", nextQuestion);
 
 
 
@@ -116,30 +100,30 @@ startBtn.addEventListener("click", timer);
 var qL = [
 {
   question: "Inside the HTML document, where do you place your JavaScript code?",
-  answers:{
+  // answers:{
    a: 'Inside the <script> element',
 		b: 'Inside the <link> element',
 		c: 'In the <footer> element',
 		d: 'Inside the <head> element',
-  },
+  // },
     correctAnswer: 'a'
   },
    { 
 question: "What operator is used to assign a value to a declared variable?",
 		
-answers: {
+// answers: {
   a: 'Equal sign (=)', 
 		b: 'Colon (:)',
 		c: 'Double-equal (==)',
 		d: 'Question mark (?)',
-},
+// },
 correctAnswer: 'a'
 },
 {
 
 question: 'What are the six primitive data types in JavaScript?',
 	answers:{
-  a:'  string, number, boolean, bigInt, symbol, undefined',
+  a:'string, number, boolean, bigInt, symbol, undefined',
 	b:	'sentence, int, truthy, bigInt, symbol, undefined',
 		c: 'sentence, float, data, bigInt, symbol, undefined',
 		d: 'string, num, falsy, bigInt, symbol, undefined',
@@ -147,6 +131,38 @@ question: 'What are the six primitive data types in JavaScript?',
   correctAnswer: 'a'
 },
 ]
+var cq = 0;
+var lastQ = qL.length -1
+var question = 0;
+var answers = 0;
+
+
+function nextQuestion() {
+  qL = question[cq];
+  dQ.textContent = qL.question;
+  // opt1.textContent = qL.a;
+  // opt2.textContent = qL.b;
+  // opt3.textContent = qL.c;
+  // opt4.textContent = qL.d;
+
+  nextQuestion()
+// cq++;
+}
+
+// startQuiz.addEventListener("click", timer);
+
+// function questionPage() {
+
+
+// questions.textContent = "What is this";
+// option1.textContent = "Wrong";
+// option2.textContent = "Try again";
+// option3.textContent = "Not yet";
+// option4.textContent = "Almost";
+// }
+
+// function (start){
+//     start.preventDefault();
 
 // What is the difference between && and ||? *
 // 		The logical operator && returns true if both expressions are true while the logical operator || returns true if one expression or the other returns true. - true
