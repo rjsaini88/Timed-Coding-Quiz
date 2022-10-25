@@ -31,17 +31,16 @@ var opt1 = qs("#option1");
 var opt2 = qs("#option2");
 var opt3 = qs("#option3");
 var opt4 = qs("#option4");
-var gameOver = qs("#gameOver");
-var timeInterval;
-
+var over = qs("#gameOver");
+var interval;
+var gameRunning = false;
+var timeLeft = 30;
+var score = 0;
 
 // guard clause
-var gameRunning = false;
-var timeLeft = 3;
-var timeInterval;
+// var timeInterval;
 // var wins = 0;
 // var losses = 0;
-var score = 0;
 
 var startGame = function () {
   if (gameRunning) return;
@@ -53,23 +52,24 @@ var startGame = function () {
 // gameRunning = true;
 // console.log("Start the game")
 
-var timer = () => {
-  var timeInterval = setInterval(function () {
-    // timeLeft--;
-    time.textContent = timeLeft--;
-    if (timeLeft === 0) {
+var timer = function () {
+  interval = setInterval(function () {
+    timeLeft--;
+    time.textContent = timeLeft;
+    if (timeLeft == 0) {
       gameOver();
     }
   }, 1000);
 };
 //check this logic for scoreboard
 var gameOver = function () {
-  gameOver.textContent = "GAME OVER";
-  clearInterval(timeInterval);
+  clearInterval(interval);
+  over.textContent = "GAME OVER";
   gameRunning = false;
-  timeLeft = 3;
+  timeLeft = 30;
   score--;
   score.textContent = score;
+
   syncLocalStorage();
   // alert("Ahhh Out of Time!!!")
 };
@@ -80,8 +80,6 @@ var syncLocalStorage = function () {
 
 startBtn.addEventListener("click", timer);
 startBtn.addEventListener("click", nextQuestion);
-
-
 
 // function timer() {
 //   var timeLeft = 3;
@@ -96,63 +94,94 @@ startBtn.addEventListener("click", nextQuestion);
 
 //build an array of questions. for loop, iterations. iteration is equal to number of questions
 //
-
+//question list
 var qL = [
-{
-  question: "Inside the HTML document, where do you place your JavaScript code?",
-  // answers:{
-   a: 'Inside the <script> element',
-		b: 'Inside the <link> element',
-		c: 'In the <footer> element',
-		d: 'Inside the <head> element',
-  // },
-    correctAnswer: 'a'
+  {
+    question:
+      "Inside the HTML document, where do you place your JavaScript code?",
+    // answers:{
+    a: "Inside the <script> element",
+    b: "Inside the <link> element",
+    c: "In the <footer> element",
+    d: "Inside the <head> element",
+
+    correctAnswer: "a",
   },
-   { 
-question: "What operator is used to assign a value to a declared variable?",
-		
-// answers: {
-  a: 'Equal sign (=)', 
-		b: 'Colon (:)',
-		c: 'Double-equal (==)',
-		d: 'Question mark (?)',
-// },
-correctAnswer: 'a'
-},
-{
+  {
+    question: "What operator is used to assign a value to a declared variable?",
 
-question: 'What are the six primitive data types in JavaScript?',
-	answers:{
-  a:'string, number, boolean, bigInt, symbol, undefined',
-	b:	'sentence, int, truthy, bigInt, symbol, undefined',
-		c: 'sentence, float, data, bigInt, symbol, undefined',
-		d: 'string, num, falsy, bigInt, symbol, undefined',
+    // answers: {
+    a: "Equal sign (=)",
+    b: "Colon (:)",
+    c: "Double-equal (==)",
+    d: "Question mark (?)",
+    // },
+    correctAnswer: "a",
   },
-  correctAnswer: 'a'
-},
-]
-var cq = 0;
-var lastQ = qL.length -1
-var question = 0;
-var answers = 0;
+  {
+    question: "What are the six primitive data types in JavaScript?",
+    // answers:
+    // {
+    a: "string, number, boolean, bigInt, symbol, undefined",
+    b: "sentence, int, truthy, bigInt, symbol, undefined",
+    c: "sentence, float, data, bigInt, symbol, undefined",
+    d: "string, num, falsy, bigInt, symbol, undefined",
+    correctAnswer: "a",
+  },
+];
+console.log(qL.length);
 
+var cq = 0; //current question
+// var lastQ = qL.length -1;
+// var question = 0;
+var correctAnswer = "";
+var cQi = qL[cq]; // current question index = 0 from question list
+console.log(cQi); // console log the first question for the array at index 0.
+// nextQuestion()
+//attach event listener to btns
+opt1.addEventListener("click", checkAnswer);
+opt2.addEventListener("click", checkAnswer);
+opt3.addEventListener("click", checkAnswer);
+opt4.addEventListener("click", checkAnswer);
 
+// qL = question[cq];
 function nextQuestion() {
-  qL = question[cq];
-  dQ.textContent = qL.question;
-  // opt1.textContent = qL.a;
-  // opt2.textContent = qL.b;
-  // opt3.textContent = qL.c;
-  // opt4.textContent = qL.d;
+  // for (i=0; i< qL.length, i++;) {
+  if (cQi) {
+    dQ.textContent = cQi.question;
+    opt1.textContent = cQi.a;
+    opt2.textContent = cQi.b;
+    opt3.textContent = cQi.c;
+    opt4.textContent = cQi.d;
+    startBtn.textContent = "Next";
+    correctAnswer = cQi.correctAnswer;
 
-  nextQuestion()
-// cq++;
+    cQi++;
+  }
+}
+//correct answer is = to cQi.correctAnswer
+function checkAnswer(event) {
+  var btnThatWasClicked = event.target;
+  var whatWasClicked = btnThatWasClicked.dataset.answer;
+  console.log("you picked answer --- ", whatWasClicked);
+  // if (cQi.a === cQi.correctAnswer)
+
+  // else
+
+  nextQuestion();
 }
 
+//user input is click event
+//click event add l
+console.log(cQi.correctAnswer);
+console.log(cQi.question);
+console.log(cQi.a);
+console.log(cQi.b);
+console.log(cQi.c);
+console.log(cQi.d);
 // startQuiz.addEventListener("click", timer);
 
 // function questionPage() {
-
 
 // questions.textContent = "What is this";
 // option1.textContent = "Wrong";
@@ -193,7 +222,7 @@ function nextQuestion() {
 // 		Functions can be reused throughout your code
 // 		Functions are able to be recursive.
 // 		Functions can receive arguments that can alter the output of a function
-    
+
 // What are the two types of scope JavaScript uses? *
 // 		Global and Local
 // 		Surrounding and Inner
@@ -236,12 +265,6 @@ function nextQuestion() {
 // 		Javascript allows developers to create richer interfaces for the users.
 // 		JavaScript lets provide the user immediate feedback upon an action.
 
-
-
-
-
 // ]
-
-
 
 // */
