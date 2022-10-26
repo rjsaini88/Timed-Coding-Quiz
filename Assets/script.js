@@ -23,8 +23,8 @@ function qs(id) {
 }
 var time = qs("#time");
 var startBtn = qs("#startBtn");
-var reset = qs("#reset");
-var score = qs("#score");
+var resetBtn = qs("#reset");
+var scoreEl = qs("#score");
 var qn = qs("questionNumber");
 var dQ = qs("#displayQuestion");
 var opt1 = qs("#option1");
@@ -37,65 +37,7 @@ var gameRunning = false;
 var timeLeft = 30;
 var score = 0;
 
-// guard clause
-// var timeInterval;
-// var wins = 0;
-// var losses = 0;
-
-var startGame = function () {
-  if (gameRunning) return;
-
-  console.log("Start the game");
-  gameRunning = true;
-  timer();
-};
-// gameRunning = true;
-// console.log("Start the game")
-
-var timer = function () {
-  interval = setInterval(function () {
-    timeLeft--;
-    time.textContent = timeLeft;
-    if (timeLeft == 0) {
-      gameOver();
-    }
-  }, 1000);
-};
-//check this logic for scoreboard
-var gameOver = function () {
-  clearInterval(interval);
-  over.textContent = "GAME OVER";
-  gameRunning = false;
-  timeLeft = 30;
-  score--;
-  score.textContent = score;
-
-  syncLocalStorage();
-  // alert("Ahhh Out of Time!!!")
-};
-
-var syncLocalStorage = function () {
-  localStorage.setItem("score", score);
-};
-
-startBtn.addEventListener("click", timer);
-startBtn.addEventListener("click", nextQuestion);
-
-// function timer() {
-//   var timeLeft = 3;
-//   var timeInterval = setInterval(function () {
-//     time.textContent = timeLeft--;
-//     if (timeLeft < 0) {
-//       clearInterval(timeInterval);
-//       alert("Ahh out of time");
-//     }
-//   }, 1000);
-// }
-
-//build an array of questions. for loop, iterations. iteration is equal to number of questions
-//
-//question list
-var qL = [
+var questionList = [
   {
     question:
       "Inside the HTML document, where do you place your JavaScript code?",
@@ -129,66 +71,161 @@ var qL = [
     correctAnswer: "a",
   },
 ];
-console.log(qL.length);
+console.log(questionList.length);
+// guard clause
+// var timeInterval;
+// var wins = 0;
+// var losses = 0;
 
-var cq = 0; //current question
-// var lastQ = qL.length -1;
-// var question = 0;
-var correctAnswer = "";
-var cQi = qL[cq]; // current question index = 0 from question list
-console.log(cQi); // console log the first question for the array at index 0.
-// nextQuestion()
-//attach event listener to btns
+// var startGame = function () {               //Clarify
+
+//   timer();
+// };
+// gameRunning = true;
+// console.log("Start the game")
+
+var timer = function () {
+  interval = setInterval(function () {
+    timeLeft--;
+    time.textContent = timeLeft;
+    if (timeLeft == 0) {
+      gameOver();
+    }
+  }, 1000);
+};
+//check this logic for scoreboard
+var gameOver = function () {
+  console.log("ENDING GAME");
+  clearInterval(interval);
+  over.textContent = "GAME OVER";
+  gameRunning = false;
+  timeLeft = 30;
+  // score--;
+
+  syncLocalStorage();
+  // alert("Ahhh Out of Time!!!")
+};
+
+var resetGame = function () {
+  //clarify
+  // clearInterval(interval);
+  // gameRunning = false;
+  // timeLeft = 30;
+  location.reload();
+};
+
+var syncLocalStorage = function () {
+  localStorage.setItem("score", score);
+};
+
+startBtn.addEventListener("click", startQuiz);
+// startBtn.addEventListener("click", nextQuestion);
+resetBtn.addEventListener("click", resetGame);
+
 opt1.addEventListener("click", checkAnswer);
 opt2.addEventListener("click", checkAnswer);
 opt3.addEventListener("click", checkAnswer);
 opt4.addEventListener("click", checkAnswer);
 
-// qL = question[cq];
-function nextQuestion() {
-  // for (i=0; i< qL.length, i++;) {
-  if (cQi) {
-    dQ.textContent = cQi.question;
-    opt1.textContent = cQi.a;
-    opt2.textContent = cQi.b;
-    opt3.textContent = cQi.c;
-    opt4.textContent = cQi.d;
-    startBtn.textContent = "Next";
-    correctAnswer = cQi.correctAnswer;
+var currentQuestionIndex = 0; //current question
+var lastQ = questionList.length - 1;
+// var question = 0;
+var correctAnswer = "";
+var currentQuestion = questionList[currentQuestionIndex]; // current question index = 0 from question list
+console.log(currentQuestion); // console log the first question for the array at index 0.
+//attach event listener to btns
+console.log(currentQuestion.question);
+console.log(currentQuestion.a);
+console.log(currentQuestion.b);
+console.log(currentQuestion.c);
+console.log(currentQuestion.d);
+console.log(currentQuestion.correctAnswer);
 
-    cQi++;
-  }
+function startQuiz() {
+  dQ.textContent = currentQuestion.question;
+  opt1.textContent = currentQuestion.a;
+  opt2.textContent = currentQuestion.b;
+  opt3.textContent = currentQuestion.c;
+  opt4.textContent = currentQuestion.d;
+  startBtn.remove();
+  timer();
+
+  // startBtn.textContent = "Next";
+  // correctAnswer = currentQuestion.correctAnswer;
+  // nextQuestion();
 }
-//correct answer is = to cQi.correctAnswer
+// function() {nextQuestion(questionList[currentQuestionIndex])}
+
+function nextQuestion() {
+  // for (i=0; i<questionList.length,i++;){                  clarify
+  console.log("current q index", currentQuestionIndex);
+  currentQuestionIndex++;
+  //after incrementing the index. check to see if there's a next question, it'll be undefined if no more question
+  currentQuestion = questionList[currentQuestionIndex];
+  if (!currentQuestion) return gameOver();
+  dQ.textContent = currentQuestion.question;
+  opt1.textContent = currentQuestion.a;
+  opt2.textContent = currentQuestion.b;
+  opt3.textContent = currentQuestion.c;
+  opt4.textContent = currentQuestion.d;
+  startBtn.textContent = "Next";
+  // currentQuestion++
+  // correctAnswer = currentQuestion.correctAnswer;
+  // nextQuestion();
+  // checkAnswer()
+}
+console.log(currentQuestion.correctAnswer);
+
 function checkAnswer(event) {
+  //clarify
   var btnThatWasClicked = event.target;
-  var whatWasClicked = btnThatWasClicked.dataset.answer;
-  console.log("you picked answer --- ", whatWasClicked);
-  // if (cQi.a === cQi.correctAnswer)
+  var userInput = btnThatWasClicked.dataset.answer;
+  console.log("you picked answer --- ", userInput);
+  if (userInput === currentQuestion.correctAnswer) {
+    score++;
+    scoreEl.textContent = score;
+  } else {
+    timeLeft -= 5;
+  }
+  // if (currentQuestion.a === currentQuestion.correctAnswer)
 
   // else
-
+  //at this point currentQuestion is still the previous question
   nextQuestion();
 }
 
+// questionList = question[currentQuestionIndex];
+// function nextQuestion() {
+//   // for (i=0; i< questionList.length, i++;) {
+//   if (currentQuestion[currentQuestionIndex]) {
+//     dQ.textContent = currentQuestion.question;
+//     opt1.textContent = currentQuestion.a;
+//     opt2.textContent = currentQuestion.b;
+//     opt3.textContent = currentQuestion.c;
+//     opt4.textContent = currentQuestion.d;
+//     startBtn.textContent = "Next";
+//     correctAnswer = currentQuestion.correctAnswer;
+//     console.log (currentQuestion.correctAnswer)
+
+//     currentQuestion++;
+//   }
+// }
+//correct answer is = to currentQuestion.correctAnswer
+
 //user input is click event
 //click event add l
-console.log(cQi.correctAnswer);
-console.log(cQi.question);
-console.log(cQi.a);
-console.log(cQi.b);
-console.log(cQi.c);
-console.log(cQi.d);
+
 // startQuiz.addEventListener("click", timer);
 
-// function questionPage() {
+var randomQuestion = function (arr) {
+  var randomIndex = Math.floor(Math.random() * arr.length);
+  return arr[randomIndex];
+};
 
-// questions.textContent = "What is this";
-// option1.textContent = "Wrong";
-// option2.textContent = "Try again";
-// option3.textContent = "Not yet";
-// option4.textContent = "Almost";
-// }
+// TODO - checkout the class example on localStorage, storing arrays or objects under 1 key val pair USE JSON.something
+// TODO - in endGame function, remove the question and answers, and put in input Element to take user initials
+// TODO - on submit of the input form, store in localStorage
+// TODO - when app loads, pull up highscores from localStorage if there are any
 
 // function (start){
 //     start.preventDefault();
