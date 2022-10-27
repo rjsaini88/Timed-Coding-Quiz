@@ -9,17 +9,15 @@
   </head>
   <body>
     <header>
-      <!-- <div class="color-style">View high scores:</div> -->
+      <div class="color-style">View high scores:</div>
       <div class="color-style flex">
         <div class="flex-col">
           <div>Timer:</div>
-          <div>Current Score:</div>
-          <div>High Score:</div>
+          <div>Score Board:</div>
         </div>
         <div class="flex-col">
-          <div id="time">50</div>
+          <div id="time">20</div>
           <div id="score">00</div>
-          <div id="hs"></div>
         </div>  
       </div>
     </header>
@@ -29,8 +27,7 @@
       <h2 class="color-style" id="displayQuestion">Are you ready for the quiz?</h2>
       <Div><H3 class="color-style" id="questionNumber"></H3></Div>
 
-     
-      <div id="options">
+      <div>
         
           <p data-answer="a" id="option1">Absolutely</p>
           
@@ -45,9 +42,6 @@
         
         
       </div>
-      <input class ="color-style" id="int" style="border-radius:5px;height:20px" placeholder="Initials">
-      <br>
-      <button class ="color-style" id="save" style="border-radius:10px;">Save</button>
       <div class="button">
         <button id="startBtn">Start Quiz</button>
         <button id="reset">Reset</button>
