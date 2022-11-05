@@ -17,9 +17,12 @@ var interval;
 var gameRunning = false;
 var timeLeft = 50;
 var score = 0;
-var hsEl = qs('#hs');
+var hsEl = qs("#hs");
 var int = qs("#int");
 var savebtn = qs("#save");
+var db = qs("#displayboard");
+var currentScore = 0;
+var highScore = 0;
 
 var questionList = [
   {
@@ -96,8 +99,6 @@ var resetGame = function () {
   location.reload();
 };
 
-
-
 startBtn.addEventListener("click", startQuiz);
 resetBtn.addEventListener("click", resetGame);
 opt1.addEventListener("click", checkAnswer);
@@ -129,7 +130,6 @@ function startQuiz() {
   opt4.textContent = currentQuestion.d;
   startBtn.remove();
   timer();
- 
 }
 
 function nextQuestion() {
@@ -143,7 +143,6 @@ function nextQuestion() {
   opt3.textContent = currentQuestion.c;
   opt4.textContent = currentQuestion.d;
 }
-console.log(currentQuestion.correctAnswer);
 
 function checkAnswer(event) {
   //clarify
@@ -152,9 +151,11 @@ function checkAnswer(event) {
   console.log("you picked answer --- ", userInput);
   if (userInput === currentQuestion.correctAnswer) {
     score++;
+    db.textContent = "Correct!!! 😃";
     scoreEl.textContent = score;
   } else {
     timeLeft -= 5;
+    db.textContent = "Wrong! 😭";
   }
   nextQuestion();
   console.log("your are on question number ", currentQuestionIndex);
@@ -171,34 +172,69 @@ var gameOver = function () {
   options.style.display = "none";
   savebtn.style.display = "block";
   int.style.display = "block";
-  syncCurrentScore()
-  // syncLocalStorage();
-  // updateScore();
-
 };
 
- var syncCurrentScore = function (){
-  localStorage.setItem ("Current Score", score);
- }
+var highScoreArray = [];
 
-// TODO - checkout the class example on localStorage, storing arrays or objects under 1 key val pair USE JSON.something
-// TODO - in endGame function, remove the question and answers, and put in input Element to take user initials
-// TODO - on submit of the input form, store in localStorage
-// // TODO - when app loads, pull up highscores from localStorage if there are any
-// var syncLocalStorage = function () {
-//   localStorage.setItem("score", score);
-// };
+savebtn.addEventListener("click", function (event) {
+  event.preventDefault();
+  int.style.display = "none";
+  savebtn.style.display = "none";
+  resetBtn.textContent = "Play Again";
 
-// var syncLocalStorageHS = 
-// var updateScore = function() {
-//   hs = localStorage.getItem ("score")
-//   hsEl.textContent = score
-// }
-// updateScore ();
+  var userInfo = {
+    score: score,
+    name: int.value,
+  };
 
-// // var randomQuestion = function (arr) {
-// //   var randomIndex = Math.floor(Math.random() * arr.length);
-// //   return arr[randomIndex];
-// // };
+  highScoreArray.push(userInfo);
+  // highScores.push(currentScore);
+  // highScores.splice(5);
+  localStorage.setItem("highScore", JSON.stringify(highScoreArray));
+});
+const getHighScore = () => {
+  var high = 0;
+  var name = "";
+  var x = [];
+  for (var i = 0; i < highScoreArray.length; i++) {
+    if (highScoreArray[i].score > high) {
+      high = highScoreArray[i].score;
+      name = highScoreArray[i].name;
+    }
+    x.push(highScoreArray[i].score);
+  }
+  console.log(x.sort());
+  hsEl.textContent = high + " " + name;
+};
+const updateOldScores = () => {
+  var highScore = JSON.parse(localStorage.getItem("highScore"));
+  console.log(highScore);
+  if (highScore !== null) {
+    highScoreArray = highScore;
+    getHighScore();
+  }
+};
+updateOldScores();
 
-// var highscores = JSON
+//create a function
+//have event listener in the function, when I click show high score it will bring up a list of previous 5 high scores.
+//by running a for loop around high score array, same intention as line 217. to get high score.
+//instead of geting one value, sort through the highest scores.
+
+// var initialHS = JSON.parse(localStorage.getItem ("highScore"))
+// hs.textContent = highScore;
+
+//[[]]
+// localStorageArray = [...initialHS];
+
+// var currentScore = {
+//   int: int.value.trim(),
+//   score: score,
+
+//check this<-----
+highScoreArray.push(currentScore);
+// localStorage.setItem("highScore", JSON.stringify(highScoreArray))
+
+int.addEventListener("keyup", () => {
+  savebtn.disabled = !int.value;
+});

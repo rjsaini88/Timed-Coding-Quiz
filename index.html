@@ -19,7 +19,7 @@
         <div class="flex-col">
           <div id="time">50</div>
           <div id="score">00</div>
-          <div id="hs"></div>
+          <div id="hs">00</div>
         </div>  
       </div>
     </header>
@@ -42,16 +42,20 @@
         
 
             <p data-answer="d" id="option4">I was born ready!!!</p>  
+            <div  id="displayboard"></div>
         
         
       </div>
       <input class ="color-style" id="int" style="border-radius:5px;height:20px" placeholder="Initials">
       <br>
-      <button class ="color-style" id="save" style="border-radius:10px;">Save</button>
+      <button class ="color-style" id="save" style="border-radius:10px;" disabled data-save>Save</button>
       <div class="button">
         <button id="startBtn">Start Quiz</button>
         <button id="reset">Reset</button>
+        <br>
+        <button id="hsel"> View High Scores</button>
       </div>
+    
     </main>
 
     <script src="./Assets/script.js"></script>
